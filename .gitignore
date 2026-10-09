@@ -1,0 +1,39 @@
+# Build Files
+*.o
+*.obj
+*.exe
+*.elf
+*.bin
+*.hex
+*.map
+
+# STM32CubeIDE
+.settings/
+.project
+.cproject
+
+# VS Code
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Coverage
+.coverage
+htmlcov/
+
+# Logs
+*.log
+
+# Temporary Files
+*.tmp
+
+# OS Files
+Thumbs.db
+.DS_Store
+
+# Backup Files
+*.bak

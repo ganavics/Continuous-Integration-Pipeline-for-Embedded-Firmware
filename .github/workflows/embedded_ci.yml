@@ -1,0 +1,60 @@
+name: Embedded CI
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Install GCC
+      run: sudo apt-get update && sudo apt-get install -y gcc
+
+    - name: Install Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    - name: Install Dependencies
+      run: |
+        pip install coverage cppcheck
+
+    - name: Build Firmware
+      run: |
+        cd firmware
+        gcc main.c sensor.c alarm.c -o firmware
+
+    - name: Run Sensor Tests
+      run: |
+        cd tests
+        python test_sensor.py
+
+    - name: Run Alarm Tests
+      run: |
+        cd tests
+        python test_alarm.py
+
+    - name: Run Integration Tests
+      run: |
+        cd tests
+        python test_integration.py
+
+    - name: Static Analysis
+      run: |
+        cppcheck firmware --enable=all
+
+    - name: Coverage
+      run: |
+        cd tests
+        coverage run -m unittest discover
+        coverage report
